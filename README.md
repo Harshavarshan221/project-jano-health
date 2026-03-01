@@ -103,46 +103,46 @@ CREATE TABLE tasks (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+
+
 Design Rationale:
 
 Tasks are relationally connected to users
-
 Foreign keys enforce referential integrity
-
 Supports task assignment logic
+
+
 
 4️⃣ Assignment Logic
 
 When assigning a task:
 
 Backend checks if user exists via email
-
 If user exists → assigns task using assigned_to
-
 If user does not exist → appropriate error is returned
 
 This ensures:
-
 No orphan task assignments
-
 Proper relational structure
+
+
 
 5️⃣ Security Considerations
 
 Environment variables for all secrets
-
 Clerk token verification on backend
-
 No passwords stored in database
-
 .gitignore excludes sensitive files
-
 CORS enabled for controlled access
 
+
+
 ⚙️ Local Development Setup
+
 1️⃣ Clone Repository
 git clone https://github.com/YOUR_USERNAME/project-jano-health.git
 cd project-jano-health
+
 2️⃣ Backend Setup
 cd server
 npm install
@@ -154,8 +154,10 @@ DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/taskflow
 CLERK_SECRET_KEY=your_clerk_secret_key
 
 Run backend:
-
 npm run dev
+
+
+
 3️⃣ Frontend Setup
 cd client
 npm install
@@ -169,74 +171,63 @@ Run frontend:
 
 npm run dev
 
-App runs at:
+
+
+**App runs at**:
 
 http://localhost:5173
 🚀 Deployment Steps
+
+
+
+
 Frontend Deployment (Vercel)
 
 Push project to GitHub
-
 Import repository into Vercel
+
 
 Set environment variable:
 
 VITE_API_URL
-
 VITE_CLERK_PUBLISHABLE_KEY
 
+
 Deploy
+
 
 Backend Deployment (Railway / Render)
 
 Create new project
-
 Connect GitHub repository
+
 
 Add environment variables:
 
 PORT
-
 DATABASE_URL
-
 CLERK_SECRET_KEY
-
 Deploy service
-
 Database Deployment
-
 Use Railway PostgreSQL or Render PostgreSQL
-
 Update DATABASE_URL accordingly
+
 
 🎯 Core Features Implemented
 
 ✅ Google Authentication
-
 ✅ Protected Dashboard
-
 ✅ CRUD Task Management
-
 ✅ Task Assignment by Email
-
 ✅ PostgreSQL Relational Schema
-
 ✅ Secure Backend Validation
-
 ✅ Responsive UI
-
 ✅ Modular Code Structure
-
 📈 Future Improvements
-
 Real-time updates with Socket.io
-
 Task filtering and categorization
-
 Notifications system
-
 Unit and integration testing
-
 Docker containerization
 
 👨‍💻 Author
