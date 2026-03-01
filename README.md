@@ -1,110 +1,86 @@
 # 🚀 Real-Time Collaborative Task Manager
 
-A full-stack collaborative task management application built with modern technologies.  
-This application allows users to securely authenticate, manage tasks, and assign tasks to other users using email — all within a clean, premium user interface.
+A full-stack collaborative task management application built using modern web technologies.  
+This project demonstrates secure authentication, relational data handling, task assignment logic, and deployment readiness.
 
 ---
 
+## 📌 Project Overview
 
+This application allows authenticated users to:
 
-## 📌 Overview
+- 🔐 Sign in securely using Google (Clerk Authentication)
+- 📝 Create, delete, and manage tasks
+- 👥 Assign tasks to other users via email
+- 📱 Use a responsive, premium UI
+- 🔒 Access protected routes securely
 
-This project was built as a full-stack assignment focusing on:
-
-- Secure authentication
-- Relational database management
-- Clean UI/UX design
-- Scalable backend architecture
-- Proper environment management
-- Deployment readiness
-
-The app supports task creation, deletion, assignment, and authentication via Google OAuth using Clerk.
+The project follows a clean separation of concerns between frontend and backend.
 
 ---
 
-## 🛠 Tech Stack
+# 🛠 Tech Stack
 
-### 🔹 Frontend
+## Frontend
 - React.js (Vite)
 - Tailwind CSS
 - React Router DOM
 - Axios
-- Clerk Authentication
+- Clerk (Google OAuth Authentication)
 
-### 🔹 Backend
+## Backend
 - Node.js
 - Express.js
 - PostgreSQL
-- Clerk backend verification
+- Clerk JWT verification
 - pg (PostgreSQL driver)
 
-### 🔹 Authentication
-- Clerk (Google OAuth + session management)
+## Database
+- PostgreSQL (Relational schema)
+- Hosted locally (can be deployed via Railway)
 
 ---
 
-## 🧱 Architecture
+# 🧱 Architectural Decisions
+
+## 1️⃣ Separation of Client and Server
+
+The project is structured into:
 
 
-Client (React)
-↓
-Express Backend
-↓
-PostgreSQL Database
+client/ → React frontend
+server/ → Express backend
 
 
-Authentication Flow:
-
-1. User signs in via Clerk (Google)
-2. Clerk generates session + token
-3. Frontend sends token to backend
-4. Backend verifies token using Clerk
-5. Data is securely fetched/stored
+This ensures:
+- Scalability
+- Clear separation of responsibilities
+- Independent deployment
 
 ---
 
-## 📂 Folder Structure
+## 2️⃣ Authentication Strategy
 
+Authentication is handled using **Clerk** instead of custom JWT logic.
 
-project-jano-health/
-│
-├── client/ # React frontend
-│ ├── src/
-│ │ ├── components/
-│ │ ├── pages/
-│ │ ├── App.jsx
-│ │ └── main.jsx
-│ └── package.json
-│
-├── server/ # Express backend
-│ ├── src/
-│ │ ├── config/
-│ │ ├── routes/
-│ │ ├── middleware/
-│ │ ├── controllers/
-│ │ └── index.js
-│ └── package.json
-│
-├── .gitignore
-└── README.md
+Why Clerk?
 
+- Secure OAuth handling
+- Google Sign-In support
+- Session management
+- Backend token verification
+- No password storage required
+
+Flow:
+1. User signs in via Clerk (Google OAuth)
+2. Clerk issues a session token
+3. Frontend sends token in Authorization header
+4. Backend verifies token using Clerk middleware
+5. Protected routes are accessed securely
 
 ---
 
-## 🔐 Authentication
-
-Authentication is powered by **Clerk**:
-
-- Google Sign-In
-- Session handling
-- Token-based backend validation
-- Secure route protection
-
-No passwords are stored in the database.
-
----
-
-## 🗄 Database Schema
+## 3️⃣ Database Design
 
 ### Users Table
 
@@ -127,17 +103,51 @@ CREATE TABLE tasks (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+Design Rationale:
 
+Tasks are relationally connected to users
 
-⚙️ Local Setup Guide
+Foreign keys enforce referential integrity
+
+Supports task assignment logic
+
+4️⃣ Assignment Logic
+
+When assigning a task:
+
+Backend checks if user exists via email
+
+If user exists → assigns task using assigned_to
+
+If user does not exist → appropriate error is returned
+
+This ensures:
+
+No orphan task assignments
+
+Proper relational structure
+
+5️⃣ Security Considerations
+
+Environment variables for all secrets
+
+Clerk token verification on backend
+
+No passwords stored in database
+
+.gitignore excludes sensitive files
+
+CORS enabled for controlled access
+
+⚙️ Local Development Setup
 1️⃣ Clone Repository
 git clone https://github.com/YOUR_USERNAME/project-jano-health.git
 cd project-jano-health
-🔧 Backend Setup
+2️⃣ Backend Setup
 cd server
 npm install
 
-Create a .env file inside server/:
+Create .env in server/:
 
 PORT=5000
 DATABASE_URL=postgresql://postgres:yourpassword@localhost:5432/taskflow
@@ -146,11 +156,11 @@ CLERK_SECRET_KEY=your_clerk_secret_key
 Run backend:
 
 npm run dev
-🎨 Frontend Setup
+3️⃣ Frontend Setup
 cd client
 npm install
 
-Create a .env file inside client/:
+Create .env in client/:
 
 VITE_API_URL=http://localhost:5000
 VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
@@ -159,70 +169,77 @@ Run frontend:
 
 npm run dev
 
-
-
-**App runs at**:
+App runs at:
 
 http://localhost:5173
+🚀 Deployment Steps
+Frontend Deployment (Vercel)
 
+Push project to GitHub
 
+Import repository into Vercel
 
-🎯 Core Features  ##
+Set environment variable:
+
+VITE_API_URL
+
+VITE_CLERK_PUBLISHABLE_KEY
+
+Deploy
+
+Backend Deployment (Railway / Render)
+
+Create new project
+
+Connect GitHub repository
+
+Add environment variables:
+
+PORT
+
+DATABASE_URL
+
+CLERK_SECRET_KEY
+
+Deploy service
+
+Database Deployment
+
+Use Railway PostgreSQL or Render PostgreSQL
+
+Update DATABASE_URL accordingly
+
+🎯 Core Features Implemented
 
 ✅ Google Authentication
+
 ✅ Protected Dashboard
-✅ Create Tasks
-✅ Delete Tasks
-✅ Assign Tasks by Email
-✅ PostgreSQL relational structure
-✅ Clean and responsive UI
-✅ Environment-based configuration
-✅ Modular backend architecture
-💎 UI/UX Highlights
-Premium Tailwind-based design
-Clean spacing and typography
-Responsive layout (Desktop + Tablet + Mobile)
-Modal-based task creation
-Smooth transitions and hover effects
 
+✅ CRUD Task Management
 
-🔒 Security
+✅ Task Assignment by Email
 
-Clerk JWT verification on backend
-No passwords stored in database
-Environment variables for secrets
-.gitignore configured for sensitive files
+✅ PostgreSQL Relational Schema
 
+✅ Secure Backend Validation
 
+✅ Responsive UI
 
-🚀 Deployment (Planned / Optional)
+✅ Modular Code Structure
 
-Frontend → Vercel
-Backend → Railway / Render
-Database → Railway PostgreSQL
-📈 Future Enhancements
-🔄 Real-time updates using Socket.io
-🔔 Notification system
-📊 Task filtering & analytics
-🧪 Unit testing
-🐳 Docker containerization
+📈 Future Improvements
+
+Real-time updates with Socket.io
+
+Task filtering and categorization
+
+Notifications system
+
+Unit and integration testing
+
+Docker containerization
 
 👨‍💻 Author
 
 Harsha Vardhan
-Built as part of a Full-Stack Internship Assignment.
-
-📄 License
-This project is for educational and evaluation purposes.
-
-
----
-
-# 🚀 After Adding
-
-Run:
-
-```bash
-git add README.md
-git commit -m "Add complete professional README"
-git push
+Full-Stack Developer
